@@ -1,7 +1,9 @@
 # arcade-heartbeat dependencies
 
 # Twitch IRC client
-twitchio>=2.8.0
+# Pinned to v2.x - v3.0 introduced breaking API changes requiring
+# client_id, client_secret, and bot_id which are unnecessary for read-only chat
+twitchio>=2.8.0,<3.0.0
 
 # Windows toast notifications
 winotify>=1.1.0
