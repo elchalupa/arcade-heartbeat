@@ -1,0 +1,45 @@
+# arcade-heartbeat configuration
+# Copy this to config.yaml and customize as needed
+
+# Detection thresholds
+thresholds:
+  # Minutes of chat silence before triggering a notification
+  chat_quiet_minutes: 5
+  
+  # Number of unique streams a viewer must attend to be considered a "regular"
+  regular_viewer_streams: 3
+  
+  # Days a regular must be away before showing "welcome back" notification
+  regular_away_days: 2
+
+# Cooldowns prevent notification spam
+cooldowns:
+  # Minutes before repeating a "chat quiet" notification
+  chat_quiet_cooldown: 10
+  
+  # Minutes before welcoming the same returning viewer again
+  # Set to 0 to always notify for returning regulars
+  viewer_welcome_cooldown: 0
+
+# Notification settings
+notifications:
+  # Play Windows notification sound
+  sound: true
+  
+  # Application name shown in toast notifications
+  app_name: "Heartbeat"
+  
+  # Duration in seconds (Windows may override this)
+  duration: "long"  # "short" or "long"
+
+# Logging settings
+logging:
+  # Show all chat messages in console
+  show_chat: true
+  
+  # Show debug information
+  debug: false
+
+# Prompt library location
+prompts:
+  file: "prompts/default.yaml"

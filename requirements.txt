@@ -1,0 +1,19 @@
+# arcade-heartbeat dependencies
+
+# Twitch IRC client
+twitchio>=2.8.0
+
+# Windows toast notifications
+winotify>=1.1.0
+
+# Configuration
+pyyaml>=6.0.1
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# CLI colors and formatting
+colorama>=0.4.6
+
+# Async support (included with twitchio, but explicit)
+aiohttp>=3.9.0

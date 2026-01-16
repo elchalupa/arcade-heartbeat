@@ -1,0 +1,47 @@
+# arcade-heartbeat prompt library
+# Customize these to match your stream's personality and vibe
+
+# Prompts for when chat has been quiet
+# These are conversation starters to re-engage your audience
+chat_quiet:
+  # General conversation starters
+  - "What games has everyone been playing lately?"
+  - "Anyone have plans for the weekend?"
+  - "What brought you to the stream today?"
+  - "What's everyone up to?"
+  - "How's everyone's day going?"
+  
+  # Recommendations and opinions
+  - "Any recommendations for what I should play next?"
+  - "What's the last game that really hooked you?"
+  - "Hot take time — what's an unpopular gaming opinion you have?"
+  - "What's a game you think is underrated?"
+  
+  # Personal connection
+  - "What are you all watching or playing besides this?"
+  - "Anyone trying anything new lately?"
+  - "What's the last thing that made you laugh?"
+  - "What's everyone's comfort game?"
+  
+  # Stream-specific (customize these for your content)
+  - "Any predictions for what's going to happen next?"
+  - "Have you played this game before? No spoilers!"
+  - "What should we name this character?"
+
+# Prompts for when a regular viewer returns
+# Available placeholders: {username}, {days_ago}, {stream_count}
+viewer_return:
+  - "Welcome back {username}! (last seen {days_ago} days ago)"
+  - "{username} is here! They've been to {stream_count} streams"
+  - "Hey {username}! Good to see you again"
+  - "{username} just showed up — say hi!"
+  - "Look who's back! {username} returns after {days_ago} days"
+
+# Prompts for when the streamer has been quiet
+# (Future feature - requires Speaker.bot integration)
+streamer_quiet:
+  - "Chat might be waiting for you — check in!"
+  - "Good time to engage with chat"
+  - "Someone might feel ignored — take a peek"
+  - "Say something! Chat's been active"
+  - "You've been quiet — chat's still here!"
