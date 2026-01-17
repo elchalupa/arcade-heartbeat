@@ -11,6 +11,10 @@ thresholds:
   
   # Days a regular must be away before showing "welcome back" notification
   regular_away_days: 2
+  
+  # Stream attendance milestones to celebrate (total streams, not consecutive)
+  # Notification triggers when a viewer hits exactly this number
+  loyalty_milestones: [5, 10, 25, 50, 100]
 
 # Cooldowns prevent notification spam
 cooldowns:
@@ -29,16 +33,33 @@ notifications:
   # Application name shown in toast notifications
   app_name: "Heartbeat"
   
-  # Duration in seconds (Windows may override this)
+  # Duration (Windows may override this)
   duration: "long"  # "short" or "long"
+  
+  # Toggle notification types
+  raids: true
+  subscriptions: true
+  loyalty_milestones: true
+  watch_streaks: true  # Twitch watch streak shares (3, 5, 10, etc.)
 
 # Logging settings
 logging:
   # Show all chat messages in console
   show_chat: true
   
+  # Show channel events (raids, subs, gifts) in console
+  show_events: true
+  
+  # Assign consistent colors to usernames (same user = same color)
+  color_usernames: true
+  
   # Show debug information
   debug: false
+
+# Safety settings (for handling trolls/hate raids)
+safety:
+  # Automatically clear console when a mod uses /clear
+  auto_clear_on_mod_clear: true
 
 # Prompt library location
 prompts:

@@ -8,6 +8,7 @@ Run with: python -m heartbeat
 import asyncio
 import os
 import sys
+import threading
 from pathlib import Path
 
 # Add colorama for Windows console colors
@@ -16,10 +17,17 @@ from colorama import init as colorama_init, Fore, Style
 # Load environment variables from .env file
 from dotenv import load_dotenv
 
+# Keyboard listener for manual clear
+try:
+    import keyboard
+    KEYBOARD_AVAILABLE = True
+except ImportError:
+    KEYBOARD_AVAILABLE = False
+
 # Import our modules
 from heartbeat.config import load_config
 from heartbeat.database import ViewerDatabase
-from heartbeat.chat import HeartbeatBot
+from heartbeat.chat import HeartbeatBot, clear_console, print_cleared_banner
 from heartbeat.engine import DecisionEngine
 from heartbeat.notifier import Notifier
 from heartbeat.prompts import PromptLibrary
@@ -48,6 +56,24 @@ def validate_environment():
         print()
         print(f"Copy .env.example to .env and fill in your values.")
         sys.exit(1)
+
+
+def setup_keyboard_listener():
+    """Set up Ctrl+L hotkey for manual console clearing."""
+    if not KEYBOARD_AVAILABLE:
+        print(f"{Fore.YELLOW}[Heartbeat]{Style.RESET_ALL} Keyboard library not found, Ctrl+L disabled")
+        print(f"{Fore.YELLOW}[Heartbeat]{Style.RESET_ALL} Install with: pip install keyboard")
+        return
+    
+    def on_clear_hotkey():
+        clear_console()
+        print_cleared_banner()
+    
+    try:
+        keyboard.add_hotkey('ctrl+l', on_clear_hotkey, suppress=True)
+    except Exception as e:
+        # Keyboard library may need admin rights on some systems
+        print(f"{Fore.YELLOW}[Heartbeat]{Style.RESET_ALL} Could not register Ctrl+L hotkey: {e}")
 
 
 def main():
@@ -106,6 +132,9 @@ def main():
     if token.startswith("oauth:"):
         token = token[6:]
     
+    # Set up keyboard listener for Ctrl+L
+    setup_keyboard_listener()
+    
     # Initialize and run the bot
     print(f"{Fore.CYAN}[Heartbeat]{Style.RESET_ALL} Connecting to #{channel}...")
     print()
@@ -122,10 +151,24 @@ def main():
     try:
         bot.run()
     except KeyboardInterrupt:
-        print()
-        print(f"{Fore.CYAN}[Heartbeat]{Style.RESET_ALL} Shutting down...")
-        database.close()
-        print(f"{Fore.CYAN}[Heartbeat]{Style.RESET_ALL} Goodbye!")
+        # twitchio may or may not catch this itself
+        pass
+    
+    # Graceful shutdown
+    print()
+    print(f"{Fore.CYAN}[Heartbeat]{Style.RESET_ALL} Shutting down...")
+    
+    # Cancel the background monitoring task to prevent
+    # "Task was destroyed but it is pending" warning
+    if engine._monitoring_task and not bot.loop.is_closed():
+        try:
+            bot.loop.run_until_complete(engine.stop_monitoring())
+        except Exception as e:
+            if config.get("logging", {}).get("debug", False):
+                print(f"{Fore.YELLOW}[Debug] Error stopping monitor: {e}{Style.RESET_ALL}")
+    
+    database.close()
+    print(f"{Fore.CYAN}[Heartbeat]{Style.RESET_ALL} Goodbye!")
 
 
 if __name__ == "__main__":
