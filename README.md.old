@@ -6,8 +6,6 @@ Heartbeat monitors your Twitch chat and sends Windows toast notifications with c
 
 **Philosophy:** The tool never speaks for you. It coaches you to speak. The goal is to build the habit of engagement, not replace it.
 
-> **Platform:** Windows 10/11 only. macOS/Linux support is planned for a future release.
-
 ## Features
 
 **Chat Silence Detection**
@@ -19,18 +17,12 @@ When a known regular returns after being away, you get a toast showing their nam
 **Viewer Database**
 Tracks every chatter you've ever had, building a history of your community over time.
 
-**Channel Events**
-Notifications for raids, subscriptions, gift subs, resubs, and Twitch watch streaks.
-
-**Username Colors**
-Console display with consistent color-coding per username for easier reading.
-
 ## Installation
 
 ### Prerequisites
 
-- Windows 10/11 (required)
 - Python 3.11+
+- Windows 10/11 (for toast notifications)
 - Twitch account
 
 ### Setup
@@ -53,18 +45,15 @@ Console display with consistent color-coding per username for easier reading.
    ```
 
 4. Configure the application:
-
-   If this is your first time setting up, create your config files:
    ```
-   if not exist config.yaml copy config.example.yaml config.yaml
-   if not exist .env copy .env.example .env
+   copy config.example.yaml config.yaml
+   copy .env.example .env
    ```
 
 5. Edit `.env` with your Twitch credentials:
    ```
    TWITCH_ACCESS_TOKEN=your_oauth_token_here
    TWITCH_CHANNEL=your_channel_name
-   TWITCH_USERNAME=your_username
    ```
 
 6. (Optional) Customize `config.yaml` with your preferred thresholds.
@@ -134,9 +123,6 @@ thresholds:
   
   # Days away before showing "welcome back" notification
   regular_away_days: 2
-  
-  # Stream attendance milestones to celebrate
-  loyalty_milestones: [5, 10, 25, 50, 100]
 
 cooldowns:
   # Minutes before repeating a "chat quiet" notification
@@ -151,26 +137,6 @@ notifications:
   
   # App name shown in toast
   app_name: "Heartbeat"
-  
-  # Notification toggles
-  raids: true
-  subscriptions: true
-  loyalty_milestones: true
-  watch_streaks: true
-
-logging:
-  # Show chat messages in console
-  show_chat: true
-  
-  # Show channel events (raids, subs, etc.)
-  show_events: true
-  
-  # Color-code usernames in console
-  color_usernames: true
-
-safety:
-  # Clear console when a mod uses /clear
-  auto_clear_on_mod_clear: true
 ```
 
 ## Customizing Prompts
@@ -206,8 +172,6 @@ This SQLite database persists across sessions and tracks:
 
 ## Future Enhancements
 
-- [ ] macOS/Linux support
-- [ ] CLI logging flags (-d, -v, -q)
 - [ ] Speaker.bot integration (detect when streamer is talking)
 - [ ] Streamer.bot WebSocket integration
 - [ ] System tray mode (hide console)
@@ -216,9 +180,7 @@ This SQLite database persists across sessions and tracks:
 
 ## Related Projects
 
-- [arcade-coach](https://github.com/elchalupa/arcade-coach) — Context-aware self-care reminders
 - [arcade-tts](https://github.com/elchalupa/arcade-tts) — Channel point TTS with voice cloning
-- [arcade-jam](https://github.com/elchalupa/arcade-jam) — AI jam roulette for music streams
 - [arcade-newsletter](https://github.com/elchalupa/arcade-newsletter) — Automated monthly newsletter
 
 ## License
